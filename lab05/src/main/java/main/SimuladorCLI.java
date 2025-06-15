@@ -133,23 +133,25 @@ public class SimuladorCLI {
             System.out.print("Escolha: ");
             String op = scanner.nextLine();
             switch(op) {
-                case "1":
+                case "1" -> {
                     atribuirMissao();
                     pause();
-                    break;
-                case "2":
+                }
+                case "2" -> {
                     executarPasso();
                     pause();
-                    break;
-                case "3":
+                }
+                case "3" -> {
                     utilizarSensor();
                     pause();
-                    break;
-                case "4":
+                }
+                case "4" -> {
                     return;
-                default:
+                }
+                default -> {
                     System.out.println("Opção inválida.");
                     pause();
+                }
             }
         }
     }

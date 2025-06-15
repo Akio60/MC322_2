@@ -11,6 +11,7 @@ import robo.Robo;
  * @reviewer Laura Bianchi
  */
 public class MissaoBuscarPonto implements Missao {
+  @SuppressWarnings("FieldMayBeFinal")
   private int[] destino;
 
   public MissaoBuscarPonto(int[] destino) {

@@ -11,6 +11,7 @@ import robo.Robo;
  * @reviewer Laura Bianchi
  */
 public class MissaoPatrulhar implements Missao {
+  @SuppressWarnings("FieldMayBeFinal")
   private int[][] pontos;
   private int indice;
 

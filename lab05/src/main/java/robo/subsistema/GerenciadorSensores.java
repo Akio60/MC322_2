@@ -1,8 +1,8 @@
 package robo.subsistema;
 
+import ambiente.Ambiente;
 import robo.Robo;
 import sensores.Sensor;
-import ambiente.Ambiente;
 
 /**
  * Gerencia os sensores do robô.
@@ -12,6 +12,7 @@ import ambiente.Ambiente;
  * @reviewer Laura Bianchi
  */
 public class GerenciadorSensores {
+  @SuppressWarnings("FieldMayBeFinal")
   private Robo robo;
 
   public GerenciadorSensores(Robo robo) {

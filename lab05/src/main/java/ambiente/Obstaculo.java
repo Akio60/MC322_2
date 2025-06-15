@@ -8,6 +8,7 @@ package ambiente;
  * @reviewer Laura Bianchi
  */
 public class Obstaculo {
+  @SuppressWarnings("FieldMayBeFinal")
   private TipoObstaculo tipo;
   private int x, y, z;
 

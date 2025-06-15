@@ -12,6 +12,7 @@ import robo.Robo;
  */
 public class MissaoExplorar implements Missao {
   private int passos;
+  @SuppressWarnings("FieldMayBeFinal")
   private int maxPassos;
 
   public MissaoExplorar(int maxPassos) {

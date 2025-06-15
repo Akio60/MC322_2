@@ -128,25 +128,28 @@ public class SimuladorCLI {
             System.out.println("Submenu: Definir Ações");
             System.out.println("1. Atribuir Missão");
             System.out.println("2. Executar Passo (Mover)");
-            System.out.println("3. Voltar ao Menu Principal");
+            System.out.println("3. Utilizar Sensor");
+            System.out.println("4. Voltar ao Menu Principal");
             System.out.print("Escolha: ");
             String op = scanner.nextLine();
             switch(op) {
-                case "1" -> {
+                case "1":
                     atribuirMissao();
                     pause();
-                }
-                case "2" -> {
+                    break;
+                case "2":
                     executarPasso();
                     pause();
-                }
-                case "3" -> {
+                    break;
+                case "3":
+                    utilizarSensor();
+                    pause();
+                    break;
+                case "4":
                     return;
-                }
-                default -> {
+                default:
                     System.out.println("Opção inválida.");
                     pause();
-                }
             }
         }
     }
@@ -458,5 +461,58 @@ public class SimuladorCLI {
             }
         }
         System.out.println("Teste gerado com sucesso!");
+    }
+
+    private static void utilizarSensor() {
+        if (robos.isEmpty()) {
+            System.out.println("Nenhum robô disponível.");
+            return;
+        }
+        System.out.println("Robôs disponíveis:");
+        for (int i = 0; i < robos.size(); i++) {
+            System.out.println((i + 1) + ": " + robos.get(i).getNome());
+        }
+        System.out.print("Escolha o robô: ");
+        int idx;
+        try {
+            idx = Integer.parseInt(scanner.nextLine()) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida.");
+            return;
+        }
+        if (idx < 0 || idx >= robos.size()) {
+            System.out.println("Índice inválido.");
+            return;
+        }
+        Robo robo = robos.get(idx);
+        List<sensores.Sensor> sensores = robo.getSensores();
+        if (sensores.isEmpty()) {
+            System.out.println("Robô não possui sensores.");
+            return;
+        }
+        System.out.println("Sensores disponíveis:");
+        for (int i = 0; i < sensores.size(); i++) {
+            System.out.println((i + 1) + ": " + sensores.get(i).getClass().getSimpleName());
+        }
+        System.out.print("Escolha o sensor: ");
+        int sensorIdx;
+        try {
+            sensorIdx = Integer.parseInt(scanner.nextLine()) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida.");
+            return;
+        }
+        if (sensorIdx < 0 || sensorIdx >= sensores.size()) {
+            System.out.println("Índice de sensor inválido.");
+            return;
+        }
+        sensores.Sensor sensor = sensores.get(sensorIdx);
+        var evento = sensor.detectar(ambiente, robo);
+        if (evento.isPresent()) {
+            System.out.println("Evento detectado: " + evento.get().getDescricao() +
+                " (" + evento.get().getX() + "," + evento.get().getY() + "," + evento.get().getZ() + ")");
+        } else {
+            System.out.println("Nenhum evento detectado.");
+        }
     }
 }

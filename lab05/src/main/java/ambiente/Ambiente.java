@@ -1,9 +1,10 @@
 package ambiente;
 
-import ambiente.mapa.TipoEntidade;
-import robo.Robo;
 import java.util.ArrayList;
 import java.util.List;
+
+import ambiente.mapa.TipoEntidade;
+import robo.Robo;
 
 /**
  * Representa o ambiente 3D do simulador de robôs.
@@ -16,9 +17,9 @@ public class Ambiente {
   private final int largura;
   private final int altura;
   private final int profundidade;
-  private TipoEntidade[][][] entidades;
-  private List<Robo> robos;
-  private List<Obstaculo> obstaculos;
+  private final TipoEntidade[][][] entidades;
+  private final List<Robo> robos;
+  private final List<Obstaculo> obstaculos;
 
   public Ambiente(int largura, int altura, int profundidade) {
     this.largura = largura;

@@ -33,19 +33,18 @@ public class SimuladorCLI {
     private static Ambiente ambiente;
     private static final List<Robo> robos = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
-    // New field for toggling map display
     private static boolean mostrarMapa = true;
-
+    
     public static void main(String[] args) {
         exibirBanner();
         carregarConfig();
         menu();
     }
-
+    
     private static void exibirBanner() {
         System.out.println("====== Simulador de Robôs – MC322 ======");
     }
-
+    
     private static void carregarConfig() {
         int largura = 10, altura = 10, profundidade = 3;
         try (BufferedReader br = new BufferedReader(new FileReader("config.txt"))) {
@@ -62,12 +61,20 @@ public class SimuladorCLI {
         ambiente = new Ambiente(largura, altura, profundidade);
         System.out.println("Ambiente criado: " + largura + "x" + altura + "x" + profundidade);
     }
-
-    // Modified menu() with new ordering:
+    
+    // New method to clear the terminal and display an improved header.
+    private static void limparTerminal() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("________________________________");
+        System.out.println("       Simulador de Robôs       ");
+        System.out.println("________________________________\n");
+    }
+    
+    // Main menu with options starting at 1, in the desired order.
     private static void menu() {
         while (true) {
-            // Clear screen if needed (optional)
-            // System.out.print("\033[H\033[2J"); System.out.flush();
+            limparTerminal();
             if(mostrarMapa) {
                 visualizarMapa();
             }
@@ -113,51 +120,18 @@ public class SimuladorCLI {
             }
         }
     }
-
-    // Updated submenu for configurações (chained directly from main menu)
-    private static void submenuConfiguracoes() {
-        while (true) {
-            System.out.println("\nSubmenu: Configurações");
-            System.out.println("1. Adicionar Robô");
-            System.out.println("2. Adicionar Obstáculo");
-            System.out.println("3. Exportar Logs");
-            System.out.println("4. Voltar ao Menu Principal");
-            System.out.print("Escolha: ");
-            String op = scanner.nextLine();
-            switch (op) {
-                case "1" -> {
-                    adicionarRobo();
-                    pause();
-                }
-                case "2" -> {
-                    adicionarObstaculo();
-                    pause();
-                }
-                case "3" -> {
-                    exportarLog();
-                    pause();
-                }
-                case "4" -> {
-                    return;
-                }
-                default -> {
-                    System.out.println("Opção inválida.");
-                    pause();
-                }
-            }
-        }
-    }
-
-    // Modified submenuAcoes() now with Atribuir Missão and Executar Passo (Mover)
+    
+    // Submenu for "Definir Ações" (options renumbered starting at 1).
     private static void submenuAcoes() {
         while (true) {
-            System.out.println("\nSubmenu: Definir Ações");
+            limparTerminal();
+            System.out.println("Submenu: Definir Ações");
             System.out.println("1. Atribuir Missão");
             System.out.println("2. Executar Passo (Mover)");
             System.out.println("3. Voltar ao Menu Principal");
             System.out.print("Escolha: ");
             String op = scanner.nextLine();
-            switch (op) {
+            switch(op) {
                 case "1" -> {
                     atribuirMissao();
                     pause();
@@ -176,70 +150,102 @@ public class SimuladorCLI {
             }
         }
     }
-
-    /**
-     * Reverted map visualization to the previous implementation.
-     */
+    
+    // Submenu for "Configurações" (options start at 1).
+    private static void submenuConfiguracoes() {
+        while (true) {
+            limparTerminal();
+            System.out.println("Submenu: Configurações");
+            System.out.println("1. Adicionar Robô");
+            System.out.println("2. Adicionar Obstáculo");
+            System.out.println("3. Exportar Logs");
+            System.out.println("4. Gerar Teste");
+            System.out.println("5. Voltar ao Menu Principal");
+            System.out.print("Escolha: ");
+            String op = scanner.nextLine();
+            switch(op) {
+                case "1" -> {
+                    adicionarRobo();
+                    pause();
+                }
+                case "2" -> {
+                    adicionarObstaculo();
+                    pause();
+                }
+                case "3" -> {
+                    exportarLog();
+                    pause();
+                }
+                case "4" -> {
+                    gerarTeste();
+                    pause();
+                }
+                case "5" -> {
+                    return;
+                }
+                default -> {
+                    System.out.println("Opção inválida.");
+                    pause();
+                }
+            }
+        }
+    }
+    
+    // Reverted map visualization with a single space between cell items.
     private static void visualizarMapa() {
         int largura = ambiente.getLargura();
         int altura = ambiente.getAltura();
         int profundidade = ambiente.getProfundidade();
         List<Robo> robosLocal = ambiente.getRobos();
         List<Obstaculo> obstaculos = ambiente.getObstaculos();
-
-        // Previous visualization logic
+        
+        System.out.println("Mapa:");
         for (int y = 0; y < altura; y++) {
             StringBuilder[] linhas = new StringBuilder[profundidade];
             for (int z = 0; z < profundidade; z++) {
                 linhas[z] = new StringBuilder();
                 for (int x = 0; x < largura; x++) {
                     boolean impresso = false;
-                    // Check for robot at position
                     for (Robo r : robosLocal) {
                         int[] pos = r.getPosicao();
                         if (pos[0] == x && pos[1] == y && pos[2] == z) {
-                            linhas[z].append(r.getNome().toUpperCase().charAt(0));
+                            linhas[z].append(r.getNome().toUpperCase().charAt(0)).append(" ");
                             impresso = true;
                             break;
                         }
                     }
-                    if (impresso) {
-                        continue;
-                    }
-                    // Check for obstacle at position
+                    if (impresso) continue;
                     for (Obstaculo o : obstaculos) {
                         int[] pos = o.getPosicao();
                         if (pos[0] == x && pos[1] == y && pos[2] == z) {
-                            linhas[z].append("#");
+                            linhas[z].append("# ").append("");
                             impresso = true;
                             break;
                         }
                     }
                     if (!impresso) {
-                        linhas[z].append(".");
+                        linhas[z].append(". ").append("");
                     }
                 }
             }
-            // Print all layers side by side for current row
             for (int z = 0; z < profundidade; z++) {
                 System.out.print(linhas[z].toString());
-                if (z < profundidade - 1)
+                if(z < profundidade - 1)
                     System.out.print("   ");
             }
             System.out.println();
         }
-        // Print legend for each layer
         for (int z = 0; z < profundidade; z++) {
             System.out.print("Z=" + z);
             int espacos = ambiente.getLargura() - 2;
             for (int e = 0; e < espacos; e++)
                 System.out.print(" ");
-            if (z < profundidade - 1)
+            if(z < profundidade - 1)
                 System.out.print("   ");
         }
         System.out.println();
     }
-
+    
     private static void adicionarRobo() {
         System.out.print("Nome do robô: ");
         String nome = scanner.nextLine();
@@ -395,5 +401,62 @@ public class SimuladorCLI {
     private static void pause() {
         System.out.println("Pressione Enter para continuar...");
         scanner.nextLine();
+    }
+
+    // Novo método para gerar robôs e obstáculos aleatórios
+    private static void gerarTeste() {
+        System.out.println("Gerando robôs e obstáculos de teste...");
+        int largura = ambiente.getLargura();
+        int altura = ambiente.getAltura();
+        int profundidade = ambiente.getProfundidade();
+        java.util.Random rand = new java.util.Random();
+
+        // Gerar um robô de cada tipo
+        String[] nomes = {"TanqueTeste", "RapidoTeste", "DroneTeste", "CargaTeste"};
+        Robo[] robosTeste = {
+            new RoboTanque(nomes[0]),
+            new RoboRapido(nomes[1]),
+            new RoboDrone(nomes[2]),
+            new RoboCarga(nomes[3])
+        };
+
+        for (Robo robo : robosTeste) {
+            boolean inserido = false;
+            for (int tent = 0; tent < 100 && !inserido; tent++) {
+                int x = rand.nextInt(largura);
+                int y = rand.nextInt(altura);
+                int z = rand.nextInt(profundidade);
+                if (ambiente.estaLivre(x, y, z)) {
+                    ambiente.adicionarRobo(robo, x, y, z);
+                    robo.ligar();
+                    robo.adicionarSensor(new SensorTerreno());
+                    robo.adicionarSensor(new SensorNavegacao());
+                    robo.adicionarSensor(new SensorTatico());
+                    robos.add(robo);
+                    inserido = true;
+                }
+            }
+            if (!inserido) {
+                System.out.println("Não foi possível inserir o robô " + robo.getNome() + " em posição livre.");
+            }
+        }
+
+        // Gerar 6 obstáculos simples (sem tipo)
+        for (int i = 0; i < 6; i++) {
+            boolean inserido = false;
+            for (int tent = 0; tent < 100 && !inserido; tent++) {
+                int x = rand.nextInt(largura);
+                int y = rand.nextInt(altura);
+                int z = rand.nextInt(profundidade);
+                if (ambiente.estaLivre(x, y, z)) {
+                    ambiente.adicionarObstaculo(new Obstaculo(null), x, y, z);
+                    inserido = true;
+                }
+            }
+            if (!inserido) {
+                System.out.println("Não foi possível inserir obstáculo " + (i+1) + " em posição livre.");
+            }
+        }
+        System.out.println("Teste gerado com sucesso!");
     }
 }

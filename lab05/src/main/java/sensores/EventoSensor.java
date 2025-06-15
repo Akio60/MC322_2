@@ -8,8 +8,10 @@ package sensores;
  * @reviewer Laura Bianchi
  */
 public class EventoSensor {
-  private String descricao;
-  private int x, y, z;
+  private final String descricao;
+    private final int x;
+    private final int y;
+    private final int z;
 
   public EventoSensor(String descricao, int x, int y, int z) {
     this.descricao = descricao;

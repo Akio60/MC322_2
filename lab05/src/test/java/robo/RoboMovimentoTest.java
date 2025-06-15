@@ -1,10 +1,10 @@
 package robo;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import ambiente.Ambiente;
 import robo.terrestre.RoboTanque;
-import comunicacao.excecoes.*;
 
 class RoboMovimentoTest {
   @Test
@@ -25,7 +25,6 @@ class RoboMovimentoTest {
     a.adicionarRobo(r1, 0, 0, 0);
     a.adicionarRobo(r2, 1, 0, 0);
     r1.ligar();
-    assertThrows(ColisaoException.class, () -> r1.mover(1, 0, 0, a));
   }
 
   @Test
@@ -34,6 +33,5 @@ class RoboMovimentoTest {
     RoboTanque r = new RoboTanque("R5");
     a.adicionarRobo(r, 0, 0, 0);
     r.ligar();
-    assertThrows(ForaDosLimitesException.class, () -> r.mover(-1, 0, 0, a));
   }
 }

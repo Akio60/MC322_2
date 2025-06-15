@@ -8,8 +8,19 @@ package ambiente;
  * @reviewer Laura Bianchi
  */
 public enum TipoObstaculo {
-  PEDRA,
-  ARVORE,
-  AGUA,
-  BURACO
+  PEDRA(3, true),
+  ARVORE(5, true),
+  AGUA(0, true),
+  BURACO(0, true);
+
+  private final int peso;
+  private final boolean bloqueia;
+
+  TipoObstaculo(int peso, boolean bloqueia) {
+    this.peso = peso;
+    this.bloqueia = bloqueia;
+  }
+
+  public int getPeso() { return peso; }
+  public boolean isBloqueia() { return bloqueia; }
 }

@@ -1,11 +1,10 @@
 package robo.subsistema;
 
-import robo.Robo;
 import ambiente.Ambiente;
-import ambiente.mapa.TipoEntidade;
 import comunicacao.excecoes.ColisaoException;
 import comunicacao.excecoes.ForaDosLimitesException;
 import comunicacao.excecoes.RoboDesligadoException;
+import robo.Robo;
 
 /**
  * Subsistema de controle de movimento do robô.
@@ -15,7 +14,7 @@ import comunicacao.excecoes.RoboDesligadoException;
  * @reviewer Laura Bianchi
  */
 public class ControleMovimento {
-  private Robo robo;
+  private final Robo robo;
 
   public ControleMovimento(Robo robo) {
     this.robo = robo;

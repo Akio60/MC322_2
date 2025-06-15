@@ -1,6 +1,7 @@
 package missao;
 
 import ambiente.Ambiente;
+import robo.Robo;
 
 /**
  * Missão de patrulha para robôs.
@@ -19,9 +20,9 @@ public class MissaoPatrulhar implements Missao {
   }
 
   @Override
-  public boolean executarPasso(AgenteInteligente agente, Ambiente ambiente) {
+  public boolean executarPasso(Robo robo, Ambiente ambiente) {
     if (indice >= pontos.length) indice = 0;
-    boolean chegou = agente.moverPara(pontos[indice], ambiente);
+    boolean chegou = robo.moverPara(pontos[indice], ambiente);
     if (chegou) indice++;
     return false;
   }

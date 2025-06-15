@@ -10,10 +10,14 @@ import robo.Robo;
  * @reviewer Laura Bianchi
  */
 public class ModuloComunicacao {
-  private Robo robo;
+  private final Robo robo;
 
   public ModuloComunicacao(Robo robo) {
     this.robo = robo;
+  }
+
+  public Robo getRobo() {
+    return this.robo;
   }
 
   // Métodos de comunicação serão implementados posteriormente

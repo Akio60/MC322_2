@@ -1,6 +1,7 @@
 package missao;
 
 import ambiente.Ambiente;
+import robo.Robo;
 
 /**
  * Interface para missões de robôs.
@@ -12,9 +13,9 @@ import ambiente.Ambiente;
 public interface Missao {
   /**
    * Executa um passo da missão.
-   * @param agente agente inteligente
+   * @param robo robô executando a missão
    * @param ambiente ambiente de simulação
    * @return true se missão concluída
    */
-  boolean executarPasso(AgenteInteligente agente, Ambiente ambiente);
+  boolean executarPasso(Robo robo, Ambiente ambiente);
 }

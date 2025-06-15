@@ -1,6 +1,7 @@
 package missao;
 
 import ambiente.Ambiente;
+import robo.Robo;
 
 /**
  * Missão de exploração para robôs.
@@ -19,9 +20,9 @@ public class MissaoExplorar implements Missao {
   }
 
   @Override
-  public boolean executarPasso(AgenteInteligente agente, Ambiente ambiente) {
+  public boolean executarPasso(Robo robo, Ambiente ambiente) {
     if (passos >= maxPassos) return true;
-    agente.moverAleatorio(ambiente);
+    robo.moverAleatorio(ambiente);
     passos++;
     return passos >= maxPassos;
   }

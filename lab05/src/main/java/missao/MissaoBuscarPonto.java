@@ -1,6 +1,7 @@
 package missao;
 
 import ambiente.Ambiente;
+import robo.Robo;
 
 /**
  * Missão de busca de ponto para robôs.
@@ -17,7 +18,7 @@ public class MissaoBuscarPonto implements Missao {
   }
 
   @Override
-  public boolean executarPasso(AgenteInteligente agente, Ambiente ambiente) {
-    return agente.moverPara(destino, ambiente);
+  public boolean executarPasso(Robo robo, Ambiente ambiente) {
+    return robo.moverPara(destino, ambiente);
   }
 }

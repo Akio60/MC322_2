@@ -11,7 +11,7 @@ import robo.Robo;
  * @since   2025-06
  * @reviewer Laura Bianchi
  */
-public class SensorTatico extends Sensor {
+public class SensorTatico implements Sensor {
   @Override
   public Optional<EventoSensor> detectar(Ambiente ambiente, Robo robo) {
     int[] pos = robo.getPosicao();

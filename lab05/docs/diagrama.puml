@@ -1,0 +1,94 @@
+@startuml
+package ambiente {
+  class Ambiente
+  class Obstaculo
+  enum TipoObstaculo
+  enum mapa.TipoEntidade
+}
+
+package robo {
+  abstract class Robo
+  class RoboTerrestre
+  class RoboAereo
+  package terrestre {
+    class RoboTanque
+    class RoboRapido
+  }
+  package aereo {
+    class RoboDrone
+    class RoboCarga
+  }
+  package subsistema {
+    class ControleMovimento
+    class GerenciadorSensores
+    class ModuloComunicacao
+  }
+}
+
+package sensores {
+  abstract class Sensor
+  class SensorTerreno
+  class SensorNavegacao
+  class SensorTatico
+  class EventoSensor
+}
+
+package missao {
+  interface Missao
+  class MissaoExplorar
+  class MissaoPatrulhar
+  class MissaoBuscarPonto
+  abstract class AgenteInteligente
+  interface Sensoreavel
+  interface Comunicavel
+  interface Autonomo
+  interface Explorador
+  interface Patrulheiro
+}
+
+package comunicacao {
+  class LoggerMissao
+  package excecoes {
+    class ColisaoException
+    class ForaDosLimitesException
+    class RoboDesligadoException
+    class ErroComunicacaoException
+    class AcaoNaoPermitidaException
+    class MapaIndefinidoException
+  }
+}
+
+package main {
+  class SimuladorCLI
+}
+
+Ambiente "1" o-- "*" Robo
+Ambiente "1" o-- "*" Obstaculo
+Ambiente "1" o-- "1" mapa.TipoEntidade
+
+Robo <|-- RoboTerrestre
+Robo <|-- RoboAereo
+RoboTerrestre <|-- RoboTanque
+RoboTerrestre <|-- RoboRapido
+RoboAereo <|-- RoboDrone
+RoboAereo <|-- RoboCarga
+
+Robo *-- ControleMovimento
+Robo *-- GerenciadorSensores
+Robo *-- ModuloComunicacao
+Robo *-- Sensor
+
+Sensor <|-- SensorTerreno
+Sensor <|-- SensorNavegacao
+Sensor <|-- SensorTatico
+
+AgenteInteligente <|-- RoboTanque
+AgenteInteligente <|-- RoboRapido
+AgenteInteligente <|-- RoboDrone
+AgenteInteligente <|-- RoboCarga
+
+Missao <|-- MissaoExplorar
+Missao <|-- MissaoPatrulhar
+Missao <|-- MissaoBuscarPonto
+
+@enduml
